@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import * as Utils from "../../flyff/flyffutils";
 
 function Dropdown({ options, onSelectionChanged, valueKey, onRemove, style }) {
     const [opened, setOpened] = useState(false);
@@ -92,7 +93,7 @@ function Dropdown({ options, onSelectionChanged, valueKey, onRemove, style }) {
                 <img 
                     style={{ transform: opened ? "rotate(180deg)" : "rotate(0deg)" }} 
                     draggable={false} 
-                    src="/arrow-down.png" 
+                    src={`${Utils.BASE_PATH}/arrow-down.png`} 
                     alt="dropdown arrow"
                 />
             </div>
@@ -110,7 +111,7 @@ function Dropdown({ options, onSelectionChanged, valueKey, onRemove, style }) {
                                 {
                                     onRemove != undefined &&
                                     <button className="flyff-close-button right" onClick={(e) => removeOption(e, key)}>
-                                        <img src="close-icon.svg" alt="remove" />
+                                        <img src={`${Utils.BASE_PATH}/close-icon.svg`} alt="remove" />
                                     </button>
                                 }
                             </div>

@@ -9,12 +9,14 @@ import partySkills from "../assets/PartySkills.json";
 import upgradeBonus from "../assets/UpgradeBonus.json";
 import levelDifferencePenalties from "../assets/LevelDifferencePenalties.json";
 
+export const BASE_PATH = '/flyff-calc';
+
 let items = null;
 let monsters = null;
 
 export async function loadItemsData() {
   if (!items) {
-    const response = await fetch('/flyffulator-chinese/data/Items.json');
+    const response = await fetch(`${BASE_PATH}/data/Items.json`);
     items = await response.json();
   }
   return items;
@@ -22,7 +24,7 @@ export async function loadItemsData() {
 
 export async function loadMonstersData() {
   if (!monsters) {
-    const response = await fetch('/flyffulator-chinese/data/Monsters.json');
+    const response = await fetch(`${BASE_PATH}/data/Monsters.json`);
     monsters = await response.json();
   }
   return monsters;
@@ -93,6 +95,10 @@ export function getClassById(id) {
 export async function getItemById(id) {
     await loadItemsData();
     return items[id];
+}
+
+export function getLoadedItems() {
+    return items;
 }
 
 export function getSkillById(id) {
@@ -249,16 +255,16 @@ export function getPetStatSum(raisedPetDefinition, levels) {
 
 export function getPetModelPath(itemId) {
     switch (itemId) {
-        case 5851: return "/model/pettiger.glb";
-        case 9941: return "/model/petlion.glb";
-        case 5471: return "/model/petrabbit.glb";
-        case 4817: return "/model/petfox.glb";
-        case 885: return "/model/petdragon.glb";
-        case 2563: return "/model/petgriffin.glb";
-        case 148: return "/model/petunicorn.glb";
-        case 1644: return "/model/petangel.glb";
-        case 6296: return "/model/petcrab.glb";
-        default: return "/model/pettiger.glb";
+        case 5851: return `${BASE_PATH}/model/pettiger.glb`;
+        case 9941: return `${BASE_PATH}/model/petlion.glb`;
+        case 5471: return `${BASE_PATH}/model/petrabbit.glb`;
+        case 4817: return `${BASE_PATH}/model/petfox.glb`;
+        case 885: return `${BASE_PATH}/model/petdragon.glb`;
+        case 2563: return `${BASE_PATH}/model/petgriffin.glb`;
+        case 148: return `${BASE_PATH}/model/petunicorn.glb`;
+        case 1644: return `${BASE_PATH}/model/petangel.glb`;
+        case 6296: return `${BASE_PATH}/model/petcrab.glb`;
+        default: return `${BASE_PATH}/model/pettiger.glb`;
     }
 }
 

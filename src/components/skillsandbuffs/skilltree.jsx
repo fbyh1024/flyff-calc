@@ -200,19 +200,19 @@ function SkillTree() {
                                 <div key={c.id}>
                                     <div className="skill-tree-header">
                                         <h3>{(() => {
-                                            const lang = i18n.resolvedLanguage;
+                                            const lang = i18n.resolvedLanguage || 'zh-CN';
                                             let langKey = lang;
-                                            if (lang.startsWith('zh')) {
+                                            if (lang && lang.startsWith('zh')) {
                                               // 先尝试使用cns键（高级职业的中文名称），如果没有再使用cn键
-                                              return c.name['cns'] || c.name['cn'] || c.name[lang.split('-')[0]] || c.name.en;
+                                              return c.name && (c.name['cns'] || c.name['cn'] || (lang && c.name[lang.split('-')[0]]) || c.name.en);
                                             }
-                                            return c.name[langKey] || c.name[lang.split('-')[0]] || c.name.en;
+                                            return c.name && (c.name[langKey] || (lang && c.name[lang.split('-')[0]]) || c.name.en);
                                         })()} {t('skills')}</h3>
                                         <button className="flyff-button" onClick={() => maxTree(c.id)}>{t('max')}</button>
                                     </div>
                                     <hr />
                                     <div style={{ position: "relative" }}>
-                                        <img src={`/tree/${c.tree}`} />
+                                        <img src={`${Utils.BASE_PATH}/tree/${c.tree}`} />
                                         {
                                             Utils.getClassSkills(c.id).map(skill =>
                                                 <SkillTreeIcon

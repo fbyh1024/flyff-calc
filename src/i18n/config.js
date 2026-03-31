@@ -17,14 +17,10 @@ export const supportedLngs = {
 i18n
   .use(HttpApi)
   .use(initReactI18next)
-  .use(LanguageDetector)
   .init({
     // Config options
-
-    // Fallback locale used when a translation is
-    // missing in the active locale. Again, use your
-    // preferred locale here.
-    fallbackLng: "en-US",
+    lng: "zh-CN",
+    fallbackLng: "zh-CN",
 
     supportedLngs: Object.keys(supportedLngs),
 
@@ -34,6 +30,10 @@ i18n
     // Enables useful output in the browser’s
     // dev console.
     debug: false,
+
+    backend: {
+      loadPath: '/flyff-calc/locales/{{lng}}/{{ns}}.json',
+    },
 
     // Normally, we want `escapeValue: true` as it
     // ensures that i18next escapes any code in

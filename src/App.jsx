@@ -25,16 +25,16 @@ function App() {
   const { t, i18n } = useTranslation();
 
   const jobOptions = {};
-  const lang = i18n.resolvedLanguage;
+  const lang = i18n.resolvedLanguage || 'zh-CN';
   console.log('Current language:', lang);
   for (const [k, v] of Object.entries(Classes)) {
     // 处理中文特殊情况
     let langKey = lang;
-    if (lang.startsWith('zh')) {
+    if (lang && lang.startsWith('zh')) {
       // 先尝试使用cns键（高级职业的中文名称），如果没有再使用cn键
-      jobOptions[k] = v.name['cns'] || v.name['cn'] || v.name[lang.split('-')[0]] || v.name.en;
+      jobOptions[k] = v.name && (v.name['cns'] || v.name['cn'] || (lang && v.name[lang.split('-')[0]]) || v.name.en);
     } else {
-      jobOptions[k] = v.name[langKey] || v.name[lang.split('-')[0]] || v.name.en;
+      jobOptions[k] = v.name && (v.name[langKey] || (lang && v.name[lang.split('-')[0]]) || v.name.en);
     }
     console.log('Job option for', k, ':', jobOptions[k]);
   }
@@ -111,11 +111,13 @@ function App() {
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     //Dont try to load the key saved from i18n
-    if (key.startsWith("i18next")) {
+    if (key && key.startsWith("i18next")) {
       continue;
     }
 
-    buildOptions[key] = key.split("_")[0];
+    if (key) {
+      buildOptions[key] = key.split("_")[0];
+    }
   }
 
   function save() {
@@ -141,13 +143,15 @@ function App() {
     const toRemove = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key.startsWith("i18next")) {
+      if (key && key.startsWith("i18next")) {
         continue;
       }
 
-      const build = localStorage.getItem(key);
-      if (build.includes("\"appliedStats\":")) {
-        toRemove.push(key);
+      if (key) {
+        const build = localStorage.getItem(key);
+        if (build && build.includes("\"appliedStats\":")) {
+          toRemove.push(key);
+        }
       }
     }
 
@@ -157,12 +161,14 @@ function App() {
 
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key.startsWith("i18next")) {
+      if (key && key.startsWith("i18next")) {
         continue;
       }
 
-      loadBuild(localStorage.key(i));
-      break;
+      if (key) {
+        loadBuild(localStorage.key(i));
+        break;
+      }
     }
   }
 
@@ -172,12 +178,14 @@ function App() {
       if (loadedBuild == key) {
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
-          if (key.startsWith("i18next")) {
+          if (key && key.startsWith("i18next")) {
             continue;
           }
 
-          loadBuild(localStorage.key(i));
-          break;
+          if (key) {
+            loadBuild(localStorage.key(i));
+            break;
+          }
         }
       }
       setState(!state);

@@ -68,7 +68,7 @@ function Slot({ backgroundIcon, content, className, onRemove }, ref) {
           {
             onRemove != undefined &&
             <button className="flyff-close-button" onClick={(e) => clearSlot(e)}>
-              <img src="close-icon.svg" alt="remove" />
+              <img src={`${Utils.BASE_PATH}/close-icon.svg`} alt="remove" />
             </button>
           }
         </>

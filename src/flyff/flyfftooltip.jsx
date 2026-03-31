@@ -43,7 +43,7 @@ function setupItem(itemElem, i18n) {
     const isUltimate = itemProp.rarity == "ultimate";
 
     if (isUltimate) {
-        out.push(<img src="/ultimate-icon.png" style={{ height: "18px" }} className="rainbow-background"></img>);
+        out.push(<img src={`${Utils.BASE_PATH}/ultimate-icon.png`} style={{ height: "18px" }} className="rainbow-background"></img>);
     }
 
     // Ultimate jewels
@@ -73,7 +73,7 @@ function setupItem(itemElem, i18n) {
     out.push(<span style={{
         fontWeight: 700,
         color: Utils.getItemNameColor(itemProp)
-    }}>{itemProp.name[itemNameLangKey] ?? itemProp.name.en} {statAwakeString}</span>);
+    }}>{itemProp.name && (itemProp.name[itemNameLangKey] ?? itemProp.name.en)} {statAwakeString}</span>);
 
     // TODO: Origin awakes (STA+, etc.)
 
@@ -380,14 +380,14 @@ function setupItem(itemElem, i18n) {
 
     // Description
 
-    if (itemProp.description.en != "null") {
+    if (itemProp.description && itemProp.description.en != "null") {
         if (itemProp.category == "raisedpet") {
             // 处理技能描述的中文特殊情况
             let descLangKey = shortLanguageCode;
             if (shortLanguageCode === 'cn') {
                 descLangKey = 'cns'; // Skills.json中使用cns作为中文键
             }
-            out.push(<span style={{ color: "#d386ff" }}><br />{itemProp.description[descLangKey] ?? itemProp.description.en}</span>);
+            out.push(<span style={{ color: "#d386ff" }}><br />{itemProp.description && (itemProp.description[descLangKey] ?? itemProp.description.en)}</span>);
         }
         else {
             // 处理技能描述的中文特殊情况
@@ -395,7 +395,7 @@ function setupItem(itemElem, i18n) {
             if (shortLanguageCode === 'cn') {
                 descLangKey = 'cns'; // Skills.json中使用cns作为中文键
             }
-            out.push(`\n${i18n.t("tooltip_description")}${itemProp.description[descLangKey] ?? itemProp.description.en}`);
+            out.push(`\n${i18n.t("tooltip_description")}${itemProp.description && (itemProp.description[descLangKey] ?? itemProp.description.en)}`);
         }
     }
 
@@ -428,17 +428,20 @@ function setupItem(itemElem, i18n) {
             if (shortLanguageCode === 'cn') {
                 setNameLangKey = 'cns'; // EquipSets.json中使用cns作为中文键
             }
-            out.push(`\n\n${set.name[setNameLangKey] ?? set.name.en} (${equippedCount}/${set.parts.length})`);
+            out.push(`\n\n${set.name && (set.name[setNameLangKey] ?? set.name.en)} (${equippedCount}/${set.parts.length})`);
 
-            for (const part of set.parts) {
-                const item = Utils.getItemById(part);
-                if (item != undefined) {
-                    // 处理装备名称的中文特殊情况
-                    let itemNameLangKey = shortLanguageCode;
-                    if (shortLanguageCode === 'cn') {
-                        itemNameLangKey = 'cns'; // Items.json中使用cns作为中文键
+            const loadedItems = Utils.getLoadedItems();
+            if (loadedItems) {
+                for (const part of set.parts) {
+                    const item = loadedItems[part];
+                    if (item != undefined) {
+                        // 处理装备名称的中文特殊情况
+                        let itemNameLangKey = shortLanguageCode;
+                        if (shortLanguageCode === 'cn') {
+                            itemNameLangKey = 'cns'; // Items.json中使用cns作为中文键
+                        }
+                        out.push(<span style={{ color: "#01ab19" }}><br />    {item.name && (item.name[itemNameLangKey] ?? item.name.en)}</span>);
                     }
-                    out.push(<span style={{ color: "#01ab19" }}><br />    {item.name[itemNameLangKey] ?? item.name.en}</span>);
                 }
             }
 
@@ -483,7 +486,7 @@ function setupItem(itemElem, i18n) {
             if (shortLanguageCode === 'cn') {
                 skillLangKey = 'cns'; // Skills.json中使用cns作为中文键
             }
-            out.push(<span style={{ color: "#ff007b" }}><br />{skill.name[skillLangKey] ?? skill.name.en} damage+{itemElem.skillAwake.add}%</span>)
+            out.push(<span style={{ color: "#ff007b" }}><br />{skill.name && (skill.name[skillLangKey] ?? skill.name.en)} damage+{itemElem.skillAwake.add}%</span>)
         }
         else if (itemElem.skillAwake.parameter != undefined) {
             out.push(<span style={{ color: "#ff007b" }}><br />{Utils.getStatNameByIdOrDefault(itemElem.skillAwake.parameter, i18n)}+{itemElem.skillAwake.add}%</span>)
@@ -555,7 +558,7 @@ function setupSkill(skill, i18n) {
     if (shortLanguageCode === 'cn') {
         skillLangKey = 'cns'; // Skills.json中使用cns作为中文键
     }
-    out.push(<span style={{ color: "#2fbe6d", fontWeight: 600 }}>{skill.name[skillLangKey] ?? skill.name.en}</span>);
+    out.push(<span style={{ color: "#2fbe6d", fontWeight: 600 }}>{skill.name && (skill.name[skillLangKey] ?? skill.name.en)}</span>);
     if (skillLevel != undefined) {
         out.push(`  Lv. ${skillLevel}`);
     }
@@ -580,7 +583,7 @@ function setupSkill(skill, i18n) {
         if (shortLanguageCode === 'cn') {
             reqSkillLangKey = 'cns'; // Skills.json中使用cns作为中文键
         }
-        const skillName = req.name[reqSkillLangKey] ?? req.name.en;
+        const skillName = req.name && (req.name[reqSkillLangKey] ?? req.name.en);
 
         if (playerLevel == undefined || playerLevel < requirement.level) {
             out.push(<span style={{ color: "#ff0000" }}><br />{i18n.t("skill_requirement_missing", { skillName, level: requirement.level })}</span>);
@@ -824,7 +827,7 @@ function setupSkill(skill, i18n) {
         descLangKey = 'cns'; // Skills.json中使用cns作为中文键
     }
     // 确保使用正确的语言键获取技能描述
-    const description = skill.description[descLangKey] ?? skill.description.en;
+    const description = skill.description && (skill.description[descLangKey] ?? skill.description.en);
     out.push(`\n${description}`);
 
     return (<div>{out.map((v, i) => <span key={i}>{v}</span>)}</div>);
@@ -851,13 +854,13 @@ function setupPartySkill(partySkill, i18n) {
     if (shortLanguageCode === 'cn') {
         skillLangKey = 'cns'; // Skills.json中使用cns作为中文键
     }
-    out.push(<span style={{ color: "#2fbe6d", fontWeight: 600 }}>{partySkill.name[skillLangKey] ?? partySkill.name.en}</span>);
+    out.push(<span style={{ color: "#2fbe6d", fontWeight: 600 }}>{partySkill.name && (partySkill.name[skillLangKey] ?? partySkill.name.en)}</span>);
     // 处理技能描述的中文特殊情况
     let descLangKey = shortLanguageCode;
     if (shortLanguageCode === 'cn') {
         descLangKey = 'cns'; // Skills.json中使用cns作为中文键
     }
-    out.push(`\n${partySkill.description[descLangKey] ?? partySkill.description.en}`)
+    out.push(`\n${partySkill.description && (partySkill.description[descLangKey] ?? partySkill.description.en)}`)
 
     return (<div>{out.map((v, i) => <span key={i}>{v}</span>)}</div>);
 }
@@ -878,7 +881,7 @@ function setupHousingNpc(housingNpc, i18n) {
         }
     }
 
-    out.push(<span style={{ color: "#2fbe6d", fontWeight: 600 }}>{housingNpc.name[shortLanguageCode] ?? housingNpc.name.en}</span>);
+    out.push(<span style={{ color: "#2fbe6d", fontWeight: 600 }}>{housingNpc.name && (housingNpc.name[shortLanguageCode] ?? housingNpc.name.en)}</span>);
     const abilityStyle = { color: "#6161ff" };
     for (const ability of housingNpc.abilities) {
         if (ability.rate) {

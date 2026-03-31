@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearch } from "../../searchcontext";
 import { useTranslation } from "react-i18next";
+import { useTooltip } from "../../tooltipcontext";
 
 import Slot from '../equipment/inventory/slot';
 import pets from "../../assets/Pets.json";
@@ -13,6 +14,7 @@ import housingNpcs from "../../assets/HousingNPCs.json";
 
 function Search() {
     const { isSearchOpen, searchProperties, hideSearch } = useSearch();
+    const { hideTooltip } = useTooltip();
     const [results, setResults] = useState([]);
     const [currentQuery, setCurrentQuery] = useState('');
     const [items, setItems] = useState(null);
@@ -277,6 +279,7 @@ function Search() {
 
     function close() {
         setResults([]);
+        hideTooltip();
         hideSearch();
     }
 
