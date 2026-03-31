@@ -190,6 +190,7 @@ export default class Entity {
      */
     deserializeItemList(itemList) {
         const items = [];
+        const loadedItems = Utils.getLoadedItems();
 
         // In case the property was stripped away during serialization
         if (!itemList) {
@@ -198,12 +199,20 @@ export default class Entity {
 
         for (const item of itemList) {
             if (typeof item === 'number') {
-                const itemElem = new ItemElem(Utils.getItemById(item));
-                items.push(itemElem);
+                if (loadedItems && loadedItems[item]) {
+                    const itemElem = new ItemElem(loadedItems[item]);
+                    items.push(itemElem);
+                }
             } else {
-                let itemElem = new ItemElem(item.itemProp);
-                itemElem = Object.assign(itemElem, item);
-                items.push(itemElem);
+                let itemProp = item.itemProp;
+                if (!itemProp && item.id && loadedItems) {
+                    itemProp = loadedItems[item.id];
+                }
+                if (itemProp) {
+                    let itemElem = new ItemElem(itemProp);
+                    itemElem = Object.assign(itemElem, item);
+                    items.push(itemElem);
+                }
             }
         }
 
@@ -254,6 +263,9 @@ export default class Entity {
         Object.assign(this, new Entity(this.monsterProp), rest);
         Object.assign(this.equipment, equipment);
 
+        // 获取已加载的装备数据
+        const loadedItems = Utils.getLoadedItems();
+
         // Need to unserialize any items to ItemElem instances
 
         for (const [slot, item] of Object.entries(this.equipment)) {
@@ -261,7 +273,15 @@ export default class Entity {
                 continue;
             }
 
-            const itemElem = new ItemElem(item.itemProp ?? Utils.getItemById(item.id));
+            let itemProp = item.itemProp;
+            if (!itemProp && item.id && loadedItems) {
+                itemProp = loadedItems[item.id];
+            }
+            if (!itemProp) {
+                continue;
+            }
+
+            const itemElem = new ItemElem(itemProp);
             this.equipment[slot] = Object.assign(itemElem, item);
             itemElem.piercings = this.deserializeItemList(itemElem.piercings);
             itemElem.ultimateJewels = this.deserializeItemList(itemElem.ultimateJewels);

@@ -103,11 +103,11 @@ function App() {
     const json = Context.player.serialize(buildName);
     try {
       await navigator.clipboard.writeText(json);
-      alert("The build's JSON was copied to your clipboard.");
+      alert(t("build_copied_to_clipboard"));
     }
     catch (e) {
       console.error(e); // Some extensions block clipboard access randomly
-      alert("Something prevented access to your clipboard. Please try again.")
+      alert(t("clipboard_access_failed"));
     }
   }
 
@@ -186,7 +186,7 @@ function App() {
   }
 
   function removeBuild(key) {
-    if (confirm("Are you sure you want to remove this build?")) {
+    if (confirm(t("remove_build_confirm"))) {
       localStorage.removeItem(key);
       if (loadedBuild == key) {
         for (let i = 0; i < localStorage.length; i++) {

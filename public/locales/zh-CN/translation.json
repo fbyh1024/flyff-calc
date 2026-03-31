@@ -179,5 +179,11 @@
     "itemedit_skill_awake": "技能觉醒",
     "itemedit_element_stone": "元素石",
     "stat_awake_none": "无",
-    "rarity_veryrare": "非常稀有"
+    "rarity_veryrare": "非常稀有",
+    "build_copied_to_clipboard": "配置的JSON已复制到剪贴板。",
+    "clipboard_access_failed": "无法访问剪贴板，请重试。",
+    "remove_build_confirm": "确定要删除这个配置吗？",
+    "insert_json_placeholder": "粘贴JSON字符串...",
+    "build_name": "配置名称: ",
+    "import_error": "导入失败，请检查JSON格式。"
 }
