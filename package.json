@@ -9,7 +9,9 @@
     "build:win": "cross-env NODE_OPTIONS=--max-old-space-size=4096 vite build",
     "build:linux": "NODE_OPTIONS=--max-old-space-size=4096 vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build:win",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@react-three/drei": "^9.117.3",
@@ -37,6 +39,7 @@
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
+    "gh-pages": "^6.3.0",
     "globals": "^15.11.0",
     "sass": "^1.81.0",
     "vite": "^5.4.10"
