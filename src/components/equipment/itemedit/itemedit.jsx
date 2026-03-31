@@ -87,7 +87,7 @@ function ItemEdit({ itemElem }) {
     // Skill awakes
 
     const possibleSkillAwakeValues = {};
-    const possibleSkillAwakeOptions = { "0": "None" };
+    const possibleSkillAwakeOptions = { "0": i18n.t("stat_awake_none") };
     const skillAwakeCategories = [itemElem.itemProp.subcategory];
     if (itemElem.itemProp.subcategory == "sword" || itemElem.itemProp.subcategory == "axe") {
         skillAwakeCategories.push("swordoraxe");
@@ -129,7 +129,7 @@ function ItemEdit({ itemElem }) {
                 possibleSkillAwakeValues[parameter] = rarities[Object.keys(rarities).at(-1)];
             }
 
-            possibleSkillAwakeOptions[parameter] = parameter;
+            possibleSkillAwakeOptions[parameter] = i18n.t(parameter);
         }
     }
 

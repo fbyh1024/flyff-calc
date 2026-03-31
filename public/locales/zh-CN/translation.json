@@ -185,5 +185,15 @@
     "remove_build_confirm": "确定要删除这个配置吗？",
     "insert_json_placeholder": "粘贴JSON字符串...",
     "build_name": "配置名称: ",
-    "import_error": "导入失败，请检查JSON格式。"
+    "import_error": "导入失败，请检查JSON格式。",
+    "block": "格挡",
+    "reflectdamage": "反射伤害",
+    "magicdefense": "魔法防御",
+    "criticalresist": "暴击抵抗",
+    "electricitydefense": "雷属性防御",
+    "firedefense": "火属性防御",
+    "winddefense": "风属性防御",
+    "waterdefense": "水属性防御",
+    "earthdefense": "土属性防御",
+    "bleedandpoisonresist": "出血和中毒抵抗"
 }
