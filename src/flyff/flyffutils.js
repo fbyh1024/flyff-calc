@@ -9,65 +9,73 @@ import partySkills from "../assets/PartySkills.json";
 import upgradeBonus from "../assets/UpgradeBonus.json";
 import levelDifferencePenalties from "../assets/LevelDifferencePenalties.json";
 
-export const BASE_PATH = '/flyff-calc';
+export const BASE_PATH = '';
 
 let items = null;
-let monsters = null;
 
-// 带进度的fetch函数
-async function fetchWithProgress(url, onProgress) {
+// 简单的fetch函数
+async function simpleFetch(url) {
+  console.log('正在加载数据:', url);
   const response = await fetch(url, {
-    cache: 'force-cache'
+    cache: 'default'
   });
-  
-  if (!response.body) {
-    // 如果没有可读流，直接返回
-    const data = await response.json();
-    if (onProgress) onProgress(100);
-    return data;
-  }
-
-  const contentLength = response.headers.get('content-length');
-  const total = contentLength ? parseInt(contentLength, 10) : 0;
-  let loaded = 0;
-
-  const reader = response.body.getReader();
-  const chunks = [];
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    chunks.push(value);
-    loaded += value.length;
-    if (total && onProgress) {
-      const progress = Math.round((loaded / total) * 100);
-      onProgress(progress);
-    }
-  }
-
-  const blob = new Blob(chunks);
-  const text = await blob.text();
-  const data = JSON.parse(text);
-  if (onProgress) onProgress(100);
+  if (!response.ok) throw new Error('HTTP error');
+  const data = await response.json();
+  console.log('数据加载成功');
   return data;
+}
+
+// 保存到localStorage
+function saveToLocalStorage(data) {
+  try {
+    const jsonStr = JSON.stringify(data);
+    localStorage.setItem('flyffItemsData', jsonStr);
+    console.log('数据已保存到localStorage');
+  } catch (error) {
+    console.error('保存到localStorage失败:', error);
+  }
+}
+
+// 从localStorage加载
+function loadFromLocalStorage() {
+  try {
+    const jsonStr = localStorage.getItem('flyffItemsData');
+    if (jsonStr) {
+      console.log('从localStorage加载数据');
+      return JSON.parse(jsonStr);
+    }
+  } catch (error) {
+    console.error('从localStorage加载失败:', error);
+  }
+  return null;
 }
 
 export async function loadItemsData(onProgress) {
   if (!items) {
-    items = await fetchWithProgress(`${BASE_PATH}/data/Items.json`, onProgress);
+    // 先尝试从localStorage加载
+    const cachedData = loadFromLocalStorage();
+    if (cachedData) {
+      console.log('从缓存加载成功');
+      items = cachedData;
+      if (onProgress) onProgress(100);
+      return items;
+    }
+
+    try {
+      if (onProgress) onProgress(0);
+      items = await simpleFetch(BASE_PATH + '/data/Items.json');
+      if (onProgress) onProgress(100);
+
+      // 保存到localStorage
+      saveToLocalStorage(items);
+    } catch (error) {
+      console.error('数据加载失败:', error);
+      throw error;
+    }
   } else if (onProgress) {
     onProgress(100);
   }
   return items;
-}
-
-export async function loadMonstersData(onProgress) {
-  if (!monsters) {
-    monsters = await fetchWithProgress(`${BASE_PATH}/data/Monsters.json`, onProgress);
-  } else if (onProgress) {
-    onProgress(100);
-  }
-  return monsters;
 }
 
 export const DEFAULT_WEAPON = new ItemElem({
@@ -149,10 +157,7 @@ export function getPartySkillById(id) {
     return partySkills[id];
 }
 
-export async function getMonsterById(id) {
-    await loadMonstersData();
-    return monsters[id];
-}
+
 
 /**
  * @param {string} id The stat id
@@ -181,10 +186,7 @@ export function getStatNameByIdOrDefault(id, i18n) {
     return stat[statLanguageCode] ?? stat.en;
 }
 
-export async function getMonsterRange(startLevel, endLevel) {
-    await loadMonstersData();
-    return Object.values(monsters).filter((m) => m.level >= startLevel && m.level <= endLevel);
-}
+
 
 /**
  * @param {Number} baseJobId The ID of the job to compare to.
