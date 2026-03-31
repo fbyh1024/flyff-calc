@@ -242,12 +242,14 @@ function App() {
         <div className="app">
           <div id="build-header">
             <img src={`https://api.flyff.com/image/class/target/${Utils.getClassById(Context.player.job.id).icon}`} alt="elementor" />
-            <div id="build-job" style={{ fontWeight: "200" }}>
-              <Dropdown options={jobOptions} onSelectionChanged={changeJob} valueKey={Context.player.job.id} />
+            <div id="build-job" style={{ fontWeight: "200", display: "flex", flexDirection: "column", gap: "8px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <Dropdown options={jobOptions} onSelectionChanged={changeJob} valueKey={Context.player.job.id} />
+              </div>
               {t("flyff_universe_character_simulator")}
               {
                 Object.entries(buildOptions).length > 0 &&
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                   {t("loaded_build")}
                   <Dropdown onRemove={removeBuild} options={buildOptions} onSelectionChanged={loadBuild} valueKey={loadedBuild} />
                 </div>
