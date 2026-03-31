@@ -16,7 +16,9 @@ let monsters = null;
 
 export async function loadItemsData() {
   if (!items) {
-    const response = await fetch(`${BASE_PATH}/data/Items.json`);
+    const response = await fetch(`${BASE_PATH}/data/Items.json`, {
+      cache: 'force-cache'
+    });
     items = await response.json();
   }
   return items;
@@ -24,7 +26,9 @@ export async function loadItemsData() {
 
 export async function loadMonstersData() {
   if (!monsters) {
-    const response = await fetch(`${BASE_PATH}/data/Monsters.json`);
+    const response = await fetch(`${BASE_PATH}/data/Monsters.json`, {
+      cache: 'force-cache'
+    });
     monsters = await response.json();
   }
   return monsters;

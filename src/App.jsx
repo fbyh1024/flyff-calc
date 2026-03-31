@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from "react-i18next";
 import { SearchProvider } from './searchcontext';
 import { TooltipProvider } from './tooltipcontext';
@@ -23,6 +23,22 @@ function App() {
   const [loadedBuild, setLoadedBuild] = useState(null);
   const [state, setState] = useState(false); // To force re-render. this is probably bad design but i dont care
   const { t, i18n } = useTranslation();
+
+  // 预加载Items和Monsters数据，提升用户体验
+  useEffect(() => {
+    async function preloadData() {
+      try {
+        await Promise.all([
+          Utils.loadItemsData(),
+          Utils.loadMonstersData()
+        ]);
+        console.log('数据预加载完成');
+      } catch (error) {
+        console.error('数据预加载失败:', error);
+      }
+    }
+    preloadData();
+  }, []);
 
   const jobOptions = {};
   const lang = i18n.resolvedLanguage || 'zh-CN';
