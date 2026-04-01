@@ -64,7 +64,7 @@ function ItemEdit({ itemElem }) {
     if (itemElem.itemProp.possibleRandomStats != undefined) {
         for (let i = 0; i < itemElem.itemProp.possibleRandomStats.length; ++i) {
             const ability = itemElem.itemProp.possibleRandomStats[i];
-            possibleRandomStats[i] = ability.parameter;
+            possibleRandomStats[i] = Utils.getStatNameByIdOrDefault(ability.parameter, i18n);
         }
     }
 
@@ -377,10 +377,9 @@ function ItemEdit({ itemElem }) {
                 itemElem.statRanges.length > 0 &&
                 <div className="column">
                     <h3>{i18n.t("itemedit_stat_ranges")}</h3>
-                    {
-                        itemElem.statRanges.map((ability, index) =>
+                    {itemElem.statRanges.map((ability, index) =>
                             <div className="row" key={index}>
-                                {ability.parameter}
+                                {Utils.getStatNameByIdOrDefault(ability.parameter, i18n)}
                                 <RangeInput
                                     min={Math.min(ability.add, ability.addMax)}
                                     max={Math.max(ability.addMax, ability.add)}
@@ -391,8 +390,7 @@ function ItemEdit({ itemElem }) {
                                     step={STAT_STEPS[ability.parameter] ?? 1}
                                 />
                             </div>
-                        )
-                    }
+                        )}
                 </div>
             }
 

@@ -218,7 +218,8 @@ function setupItem(itemElem, i18n) {
 
         if (itemElem.statRanges.length == 0) {
             for (const ability of itemProp.abilities) {
-                out.push(<span style={abilityStyle}><br />{Utils.getStatNameByIdOrDefault(ability.parameter, i18n)}+{ability.add}</span>);
+                const sign = ability.add >= 0 ? '+' : '';
+                out.push(<span style={abilityStyle}><br />{Utils.getStatNameByIdOrDefault(ability.parameter, i18n)}{sign}{ability.add}</span>);
                 if (ability.rate) {
                     out.push(<span style={abilityStyle}>%</span>);
                 }
@@ -226,12 +227,15 @@ function setupItem(itemElem, i18n) {
         }
         else {
             for (const ability of itemElem.statRanges) {
-                out.push(<span style={abilityStyle}><br />{Utils.getStatNameByIdOrDefault(ability.parameter, i18n)}+{ability.value}</span>);
+                const sign = ability.value >= 0 ? '+' : '';
+                out.push(<span style={abilityStyle}><br />{Utils.getStatNameByIdOrDefault(ability.parameter, i18n)}{sign}{ability.value}</span>);
                 if (ability.rate) {
                     out.push(<span style={abilityStyle}>%</span>);
                 }
 
-                out.push(<span style={abilityStyle}> ({ability.add}~{ability.addMax})</span>);
+                const addSign = ability.add >= 0 ? '+' : '';
+                const addMaxSign = ability.addMax >= 0 ? '+' : '';
+                out.push(<span style={abilityStyle}> ({addSign}{ability.add}~{addMaxSign}{ability.addMax})</span>);
 
                 if (ability.rate) {
                     out.push(<span style={abilityStyle}>%</span>);
