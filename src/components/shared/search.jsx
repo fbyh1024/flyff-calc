@@ -128,14 +128,15 @@ function Search() {
                         }
                     }
 
-                    var itemName = typeof item.name === 'string' ? item.name : (item.name.cns || item.name.tw || item.name.en);
+                    var itemNameCn = typeof item.name === 'string' ? item.name : (item.name.cns || item.name.tw);
+                    var itemNameEn = typeof item.name === 'string' ? item.name : item.name.en;
                     
                     if (query === '') {
                         res.push(new ItemElem(item));
                         continue;
                     }
                     
-                    if (itemName && itemName.includes(query)) {
+                    if ((itemNameCn && itemNameCn.includes(query)) || (itemNameEn && itemNameEn.toLowerCase().includes(query))) {
                         res.push(new ItemElem(item));
                         continue;
                     }
@@ -157,8 +158,9 @@ function Search() {
                     if (shortCode === 'zh') {
                         skillLangKey = 'cns';
                     }
-                    const skillName = skill.name[skillLangKey] ?? skill.name.en;
-                    if (skillName.toLowerCase().includes(query)) {
+                    const skillNameCn = skill.name[skillLangKey] ?? '';
+                    const skillNameEn = skill.name.en;
+                    if ((skillNameCn && skillNameCn.toLowerCase().includes(query)) || (skillNameEn && skillNameEn.toLowerCase().includes(query))) {
                         res.push(skill);
                     }
                 }
@@ -172,8 +174,9 @@ function Search() {
                     if (shortCode === 'zh') {
                         npcLangKey = 'cns';
                     }
-                    var selectedLanguageNpcName = housingNpc.name[npcLangKey] ?? housingNpc.name.en;
-                    if (selectedLanguageNpcName.toLowerCase().includes(query)) {
+                    var npcNameCn = housingNpc.name[npcLangKey] ?? '';
+                    var npcNameEn = housingNpc.name.en;
+                    if ((npcNameCn && npcNameCn.toLowerCase().includes(query)) || (npcNameEn && npcNameEn.toLowerCase().includes(query))) {
                         housingNpc.icon = "asschecatsre.png"
                         res.push(housingNpc);
                         continue;
@@ -198,8 +201,9 @@ function Search() {
                     if (shortCode === 'zh') {
                         npcLangKey = 'cns';
                     }
-                    var selectedLanguageGuildNpcName = housingNpc.name[npcLangKey] ?? housingNpc.name.en;
-                    if (selectedLanguageGuildNpcName.toLowerCase().includes(query)) {
+                    var guildNpcNameCn = housingNpc.name[npcLangKey] ?? '';
+                    var guildNpcNameEn = housingNpc.name.en;
+                    if ((guildNpcNameCn && guildNpcNameCn.toLowerCase().includes(query)) || (guildNpcNameEn && guildNpcNameEn.toLowerCase().includes(query))) {
                         housingNpc.icon = "asschecatsre.png"
                         res.push(housingNpc);
                         continue;
