@@ -3,7 +3,6 @@ import { useTooltip } from '../../../tooltipcontext';
 import { createTooltip } from '../../../flyff/flyfftooltip';
 import * as Utils from '../../../flyff/flyffutils';
 import { useTranslation } from "react-i18next";
-import CachedImage from '../../shared/CachedImage';
 
 import '../../../styles/equipment.scss';
 
@@ -46,7 +45,7 @@ function Slot({ backgroundIcon, content, className, onRemove }, ref) {
       ref={slotRef}>
       {
         backgroundIcon != null && backgroundIcon.length > 0 &&
-        <CachedImage src={backgroundIcon} draggable={false} id="placeholder" />
+        <img src={backgroundIcon} draggable={false} id="placeholder" />
       }
 
       {
@@ -54,9 +53,9 @@ function Slot({ backgroundIcon, content, className, onRemove }, ref) {
         <>
           {
             (content.itemProp != undefined && content.passive == undefined) ? 
-            <CachedImage src={`https://api.flyff.com/image/item/${content.itemProp.icon}`} draggable={false} id="slot-content" />
+            <img src={`https://api.flyff.com/image/item/${content.itemProp.icon}`} draggable={false} id="slot-content" />
             :
-            <CachedImage src={`https://api.flyff.com/image/skill/colored/${content.icon}`} draggable={false} id="slot-content" />
+            <img src={`https://api.flyff.com/image/skill/colored/${content.icon}`} draggable={false} id="slot-content" />
           }
 
           {
