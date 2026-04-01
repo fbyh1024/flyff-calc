@@ -440,6 +440,42 @@ function Calculations() {
                         percentage
                     />
                 </div>
+
+                <hr class="basic-stats-divider" />
+
+                <div class="basic-stats-grid two-col">
+                    <BasicStat
+                        title="物品掉率"
+                        value={Context.player.getStat("droprate", true)}
+                        information='这个值会增加你从怪物那里获得物品的概率。'
+                        sourceLink='https://github.com/Frostiae/Flyffulator/blob/main/src/flyff/flyffentity.js#L935'
+                        percentage
+                    />
+
+                    <BasicStat
+                        title="怪物经验"
+                        value={Context.player.getStat("exprate", true)}
+                        information='这个值会增加你从怪物那里获得的经验值。'
+                        sourceLink='https://github.com/Frostiae/Flyffulator/blob/main/src/flyff/flyffentity.js#L935'
+                        percentage
+                    />
+
+                    <BasicStat
+                        title="MP消耗降低"
+                        value={Context.player.getStat("decreasedmpconsumption", true)}
+                        information='这个值会减少你使用技能时消耗的MP。'
+                        sourceLink='https://github.com/Frostiae/Flyffulator/blob/main/src/flyff/flyffentity.js#L935'
+                        percentage
+                    />
+
+                    <BasicStat
+                        title="FP消耗降低"
+                        value={Context.player.getStat("decreasedfpconsumption", true)}
+                        information='这个值会减少你使用技能时消耗的FP。'
+                        sourceLink='https://github.com/Frostiae/Flyffulator/blob/main/src/flyff/flyffentity.js#L935'
+                        percentage
+                    />
+                </div>
             </div>
 
             <ImportCharacter open={isImporting} onImport={importCharacter} close={() => setIsImporting(false)} />
