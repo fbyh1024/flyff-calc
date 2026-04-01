@@ -12,7 +12,6 @@ import Tooltip from './components/shared/tooltip';
 import Dropdown from './components/shared/dropdown';
 import Equipment from './components/equipment/equipment';
 import NumberInput from './components/shared/numberinput';
-import Modal from './components/shared/modal';
 
 import ImportCharacter from './components/base/importcharacter';
 import SkillsBuffs from './components/skillsandbuffs/skillsbuffs';
@@ -23,8 +22,6 @@ function App() {
   const [isImporting, setIsImporting] = useState(false);
   const [loadedBuild, setLoadedBuild] = useState(null);
   const [state, setState] = useState(false); // To force re-render. this is probably bad design but i dont care
-  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const [shareLink, setShareLink] = useState('');
   const { t, i18n } = useTranslation();
 
   // 预加载Items数据，提升用户体验
@@ -38,19 +35,6 @@ function App() {
       }
     }
     preloadData();
-  }, []);
-
-  // 检查URL参数是否有分享的配装
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const shareId = urlParams.get('share');
-    if (shareId) {
-      const savedBuild = localStorage.getItem(`share_${shareId}`);
-      if (savedBuild) {
-        Context.player.unserialize(savedBuild);
-        setState(!state);
-      }
-    }
   }, []);
 
   const lang = i18n.resolvedLanguage || 'zh-CN';
@@ -176,37 +160,19 @@ function App() {
   }
 
   async function share() {
-    // 检查是否已保存配装
-    if (loadedBuild == null) {
-      alert(t("please_save_first"));
+    const buildName = prompt(t("enter_build_name"));
+    
+    if (buildName === null || buildName.length === 0) {
       return;
     }
 
-    // 生成唯一的分享ID
-    const shareId = Utils.getGuid();
-    
-    // 获取当前配装数据
-    const buildData = localStorage.getItem(loadedBuild);
-    
-    // 保存到localStorage用于分享
-    localStorage.setItem(`share_${shareId}`, buildData);
-    
-    // 生成分享链接
-    const baseUrl = window.location.origin + window.location.pathname;
-    const shareUrl = `${baseUrl}?share=${shareId}`;
-    
-    // 设置分享链接并打开弹窗
-    setShareLink(shareUrl);
-    setIsShareModalOpen(true);
-  }
-
-  // 复制分享链接到剪贴板
-  async function copyShareLink() {
+    const json = Context.player.serialize(buildName);
     try {
-      await navigator.clipboard.writeText(shareLink);
-      alert(t("copied"));
-    } catch (e) {
-      console.error(e);
+      await navigator.clipboard.writeText(json);
+      alert(t("build_copied_to_clipboard"));
+    }
+    catch (e) {
+      console.error(e); // Some extensions block clipboard access randomly
       alert(t("clipboard_access_failed"));
     }
   }
@@ -402,24 +368,6 @@ function App() {
 
 
           <ImportCharacter open={isImporting} onImport={importCharacter} close={() => setIsImporting(false)} />
-
-          <Modal 
-            isOpen={isShareModalOpen} 
-            onClose={() => setIsShareModalOpen(false)} 
-            title={t("share_link_generated")}
-          >
-            <p>{t("share_link_generated")}</p>
-            <div className="link-display">
-              <input 
-                type="text" 
-                className="link-input" 
-                value={shareLink} 
-                readOnly 
-                onClick={(e) => e.target.select()}
-              />
-              <button className="copy-button" onClick={copyShareLink}>{t("copy")}</button>
-            </div>
-          </Modal>
 
           <Search />
           <Tooltip />
