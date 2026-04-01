@@ -233,20 +233,8 @@ function Calculations() {
 
     return (
         <div id="calculations">
-            <div id="basic-stats" style={{ 
-                flex: 1, 
-                padding: "20px",
-                background: "linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)",
-                borderRadius: "8px",
-                border: "1px solid #444",
-                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
-                margin: "20px"
-            }}>
-                <div style={{ 
-                    display: "grid", 
-                    gridTemplateColumns: "repeat(2, 1fr)", 
-                    gap: "15px"
-                }}>
+            <div id="basic-stats">
+                <div class="basic-stats-grid two-col">
                     <BasicStat title={t("strength")} value={Context.player.getBaseStat("str")}
                         information={"这是你的总力量，包括来自装备或其他地方的任何加成。"}
                         sourceLink={"https://github.com/Frostiae/Flyffulator/blob/main/src/flyff/flyffentity.js#L290"}
@@ -268,16 +256,9 @@ function Calculations() {
                     />
                 </div>
 
-                <hr style={{ 
-                    margin: "20px 0", 
-                    border: "1px solid #444"
-                }} />
+                <hr class="basic-stats-divider" />
 
-                <div style={{ 
-                    display: "grid", 
-                    gridTemplateColumns: "repeat(3, 1fr)", 
-                    gap: "15px"
-                }}>
+                <div class="basic-stats-grid three-col">
                     <BasicStat title={t("maximum_hp")} value={Context.player.getHP()}
                         information={"这是你的最大生命值。"}
                         sourceLink={"https://github.com/Frostiae/Flyffulator/blob/main/src/flyff/flyffentity.js#L302"}
@@ -294,16 +275,9 @@ function Calculations() {
                     />
                 </div>
 
-                <hr style={{ 
-                    margin: "20px 0", 
-                    border: "1px solid #444"
-                }} />
+                <hr class="basic-stats-divider" />
 
-                <div style={{ 
-                    display: "grid", 
-                    gridTemplateColumns: "repeat(2, 1fr)", 
-                    gap: "15px"
-                }}>
+                <div class="basic-stats-grid two-col">
                     <BasicStat title={t("speed")} value={Context.player.getMovementSpeed()}
                         information={"这是你当前的移动速度因子。"}
                         sourceLink={"https://github.com/Frostiae/Flyffulator/blob/main/src/flyff/flyffentity.js#L365"}
@@ -332,16 +306,9 @@ function Calculations() {
                     />
                 </div>
 
-                <hr style={{ 
-                    margin: "20px 0", 
-                    border: "1px solid #444"
-                }} />
+                <hr class="basic-stats-divider" />
 
-                <div style={{ 
-                    display: "grid", 
-                    gridTemplateColumns: "repeat(2, 1fr)", 
-                    gap: "15px"
-                }}>
+                <div class="basic-stats-grid two-col">
                     <BasicStat title={t("attack")} value={Context.player.getAttack()}
                         information={"这是你的攻击力。这是你一般伤害的近似值，因为你的真实伤害在很大程度上取决于当前的上下文。"}
                         sourceLink={"https://github.com/Frostiae/Flyffulator/blob/main/src/flyff/flyffentity.js#L423"}
@@ -400,16 +367,9 @@ function Calculations() {
                     />
                 </div>
 
-                <hr style={{ 
-                    margin: "20px 0", 
-                    border: "1px solid #444"
-                }} />
+                <hr class="basic-stats-divider" />
 
-                <div style={{ 
-                    display: "grid", 
-                    gridTemplateColumns: "repeat(2, 1fr)", 
-                    gap: "15px"
-                }}>
+                <div class="basic-stats-grid two-col">
                     <BasicStat title={t("defense")} value={generateDefense()}
                         information={"这个值会降低你从自动攻击中受到的伤害。\n\n虽然这个值明显低于你在游戏中看到的值，但它是伤害计算中使用的真实值。"}
                         sourceLink={"https://github.com/Frostiae/Flyffulator/blob/main/src/tabs/calculations.jsx#L147"}
