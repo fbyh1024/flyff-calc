@@ -82,14 +82,14 @@ function Dropdown({ options, onSelectionChanged, valueKey, onRemove, style, orde
     }
 
     return (
-        <div className="flyff-dropdown" style={{ ...style }} ref={containerRef}>
+        <div className="flyff-dropdown" style={{ ...style, minWidth: '200px' }} ref={containerRef}>
             <div onClick={toggleDropdown} className="flyff-dropdown-arrow" role="button" tabIndex={0} onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     toggleDropdown();
                 }
             }}>
-                <span className="dropdown-value">{options[valueKey]}</span>
+                <span className="dropdown-value" style={{ fontSize: '14px' }}>{options[valueKey]}</span>
                 <img 
                     style={{ transform: opened ? "rotate(180deg)" : "rotate(0deg)" }} 
                     draggable={false} 
@@ -99,16 +99,16 @@ function Dropdown({ options, onSelectionChanged, valueKey, onRemove, style, orde
             </div>
             {
                 opened &&
-                <div className="flyff-dropdown-options" style={dropdownStyle} ref={dropdownRef}>
+                <div className="flyff-dropdown-options" style={{ ...dropdownStyle, minWidth: '200px' }} ref={dropdownRef}>
                     {
                         (orderedKeys ? orderedKeys : Object.keys(options)).map((key) => (
                             <div 
                                 key={key} 
                                 className={`dropdown-option ${key === valueKey ? 'selected' : ''} ${key.startsWith('group_') ? 'dropdown-group-header' : ''}`}
-                                style={{ position: "relative" }}
+                                style={{ position: "relative", fontSize: '13px' }}
                             >
                                 {key.startsWith('group_') ? (
-                                    <div style={{ fontWeight: 'bold', color: '#d386ff', padding: '4px 0' }}>{options[key]}</div>
+                                    <div style={{ fontWeight: 'bold', color: '#d386ff', padding: '4px 0', fontSize: '14px' }}>{options[key]}</div>
                                 ) : (
                                     <>
                                         <div onClick={() => selectOption(key)} style={{ paddingLeft: '16px' }}>{options[key]}</div>
