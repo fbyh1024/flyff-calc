@@ -195,7 +195,17 @@ function setupItem(itemElem, i18n) {
     }
 
     if (itemProp.attackSpeed != undefined) {
-        out.push(`\n${i18n.t("tooltip_attack_speed")}${itemProp.attackSpeed}`);
+        const attackSpeedMap = {
+            "veryslow": "非常慢",
+            "slow": "慢",
+            "normal": "普通",
+            "fast": "快",
+            "veryfast": "非常快",
+            "veryslowest": "最慢",
+            "veryfastest": "最快"
+        };
+        const attackSpeedText = attackSpeedMap[itemProp.attackSpeed] || itemProp.attackSpeed;
+        out.push(`\n${i18n.t("tooltip_attack_speed")}${attackSpeedText}`);
     }
 
     // Element
