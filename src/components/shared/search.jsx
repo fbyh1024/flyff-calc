@@ -23,9 +23,6 @@ function Search() {
     var shortCode = "en";
     if (i18n.resolvedLanguage) {
         shortCode = i18n.resolvedLanguage.split('-')[0];
-        if (shortCode === 'zh') {
-            shortCode = 'cn';
-        }
     }
 
     // 加载数据
@@ -157,7 +154,7 @@ function Search() {
             else if (searchProperties.type == "skill") {
                 for (const [, skill] of Object.entries(skills)) {
                     let skillLangKey = shortCode;
-                    if (shortCode === 'cn') {
+                    if (shortCode === 'zh') {
                         skillLangKey = 'cns';
                     }
                     const skillName = skill.name[skillLangKey] ?? skill.name.en;
@@ -171,7 +168,11 @@ function Search() {
                     if (!housingNpc.name.en.includes("Personal House NPC")) {
                         continue;
                     }
-                    var selectedLanguageNpcName = housingNpc.name[shortCode] ?? housingNpc.name.en;
+                    let npcLangKey = shortCode;
+                    if (shortCode === 'zh') {
+                        npcLangKey = 'cns';
+                    }
+                    var selectedLanguageNpcName = housingNpc.name[npcLangKey] ?? housingNpc.name.en;
                     if (selectedLanguageNpcName.toLowerCase().includes(query)) {
                         housingNpc.icon = "asschecatsre.png"
                         res.push(housingNpc);
@@ -193,7 +194,11 @@ function Search() {
                     if (!housingNpc.name.en.includes("Guild House NPC")) {
                         continue;
                     }
-                    var selectedLanguageGuildNpcName = housingNpc.name[shortCode] ?? housingNpc.name.en;
+                    let npcLangKey = shortCode;
+                    if (shortCode === 'zh') {
+                        npcLangKey = 'cns';
+                    }
+                    var selectedLanguageGuildNpcName = housingNpc.name[npcLangKey] ?? housingNpc.name.en;
                     if (selectedLanguageGuildNpcName.toLowerCase().includes(query)) {
                         housingNpc.icon = "asschecatsre.png"
                         res.push(housingNpc);
@@ -294,7 +299,7 @@ function Search() {
                                     }}
                                 >
                                     <Slot className={"slot-item"} content={result} />
-                                    <span style={{ color: Utils.getItemNameColor(result.itemProp) }}>{typeof result.itemProp.name === 'string' ? result.itemProp.name : (result.itemProp.name[shortCode === 'cn' ? 'cns' : shortCode] ?? result.itemProp.name.en)}</span>
+                                    <span style={{ color: Utils.getItemNameColor(result.itemProp) }}>{typeof result.itemProp.name === 'string' ? result.itemProp.name : (result.itemProp.name[shortCode === 'zh' ? 'cns' : shortCode] ?? result.itemProp.name.en)}</span>
                                 </div>
                             )
                         }
@@ -321,7 +326,7 @@ function Search() {
                                     <Slot className={"slot-skill"} content={result} />
                                     <span>{(() => {
                                         let nameLangKey = shortCode;
-                                        if (shortCode === 'cn') {
+                                        if (shortCode === 'zh') {
                                             nameLangKey = 'cns';
                                         }
                                         return result.name[nameLangKey] ?? result.name.en;
