@@ -3,21 +3,29 @@ import * as Utils from "../../flyff/flyffutils";
 
 function Dropdown({ options, onSelectionChanged, valueKey, onRemove, style, orderedKeys }) {
     const [opened, setOpened] = useState(false);
-    const [dropdownStyle, setDropdownStyle] = useState({ top: "110%" });
+    const [dropdownStyle, setDropdownStyle] = useState({ top: "100%" });
     const dropdownRef = useRef(null);
     const containerRef = useRef(null);
 
     useEffect(() => {
-        if (opened && dropdownRef.current) {
-            if (dropdownRef.current.getBoundingClientRect().bottom >= window.innerHeight) {
-                setDropdownStyle({ bottom: "110%" });
-            }
-            else {
-                setDropdownStyle({ top: "110%" });
-            }
+        if (opened) {
+            requestAnimationFrame(() => {
+                if (dropdownRef.current && containerRef.current) {
+                    const containerRect = containerRef.current.getBoundingClientRect();
+                    const dropdownHeight = dropdownRef.current.offsetHeight || 200;
+                    const spaceBelow = window.innerHeight - containerRect.bottom;
+                    
+                    if (spaceBelow < dropdownHeight + 10 && containerRect.top > dropdownHeight + 10) {
+                        setDropdownStyle({ bottom: "100%", top: "auto", marginBottom: "4px" });
+                    }
+                    else {
+                        setDropdownStyle({ top: "100%", bottom: "auto", marginTop: "4px" });
+                    }
+                }
+            });
         }
         else {
-            setDropdownStyle({ top: "110%" });
+            setDropdownStyle({ top: "100%", bottom: "auto", marginTop: "4px" });
         }
     }, [opened]);
 
