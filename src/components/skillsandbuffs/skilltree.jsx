@@ -198,7 +198,7 @@ function SkillTree() {
                         <i style={{ color: Context.player.getRemainingSkillPoints() < 0 ? "red" : "inherit" }}>{Context.player.getRemainingSkillPoints()} {t("skills_and_buffs_skills_points_available")}</i>
                         <HoverInfo text={"你剩余的技能点数。\n\n虽然在游戏中你不能将技能点数分配到负数，但在此页面上你可以分配超过你拥有的点数。"} />
                     </div>
-                    <div style={{ marginBottom: "15px", color: "#333", fontSize: "1.1em", fontWeight: "bold", backgroundColor: "#f0f0f0", padding: "10px", borderRadius: "5px", border: "1px solid #ddd" }}>
+                    <div style={{ marginBottom: "10px", color: "#555", fontSize: "1em", fontWeight: "bold" }}>
                         🖱️ 左键增加技能点，右键减少技能点
                     </div>
                     {
