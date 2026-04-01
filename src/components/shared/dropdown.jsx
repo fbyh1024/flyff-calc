@@ -127,16 +127,16 @@ function Dropdown({ options, onSelectionChanged, valueKey, onRemove, style, orde
                                             top: 0, 
                                             left: 0, 
                                             width: '100%', 
-                                            height: '100%', 
+                                            height: '300px', 
                                             pointerEvents: 'none',
                                             zIndex: 1
                                         }}>
                                             {/* [1转]战士 → [2转]骑士 */}
                                             {key === '764' && (
-                                                <svg style={{ position: 'absolute', top: '100%', left: '8px', width: '100%', height: '40px' }}>
+                                                <svg style={{ position: 'absolute', top: '100%', left: '8px', width: '50px', height: '60px' }}>
                                                     <path 
-                                                        d="M 0 0 V 20 H 16 V 40" 
-                                                        stroke="rgba(200, 200, 200, 0.3)" 
+                                                        d="M 0 0 V 30 H 16 V 60" 
+                                                        stroke="rgba(200, 200, 200, 0.6)" 
                                                         strokeWidth="1" 
                                                         strokeDasharray="2,2" 
                                                         fill="none"
@@ -145,10 +145,10 @@ function Dropdown({ options, onSelectionChanged, valueKey, onRemove, style, orde
                                             )}
                                             {/* [1转]战士 → [2转]刀锋战士 */}
                                             {key === '764' && (
-                                                <svg style={{ position: 'absolute', top: '100%', left: '8px', width: '100%', height: '80px' }}>
+                                                <svg style={{ position: 'absolute', top: '100%', left: '8px', width: '50px', height: '120px' }}>
                                                     <path 
-                                                        d="M 0 0 V 60 H 16 V 80" 
-                                                        stroke="rgba(200, 200, 200, 0.3)" 
+                                                        d="M 0 0 V 90 H 16 V 120" 
+                                                        stroke="rgba(200, 200, 200, 0.6)" 
                                                         strokeWidth="1" 
                                                         strokeDasharray="2,2" 
                                                         fill="none"
@@ -157,10 +157,10 @@ function Dropdown({ options, onSelectionChanged, valueKey, onRemove, style, orde
                                             )}
                                             {/* [2转]骑士 → [3转]圣殿骑士 */}
                                             {key === '5330' && (
-                                                <svg style={{ position: 'absolute', top: '100%', left: '8px', width: '100%', height: '80px' }}>
+                                                <svg style={{ position: 'absolute', top: '100%', left: '8px', width: '50px', height: '120px' }}>
                                                     <path 
-                                                        d="M 0 0 V 60 H 16 V 80" 
-                                                        stroke="rgba(200, 200, 200, 0.3)" 
+                                                        d="M 0 0 V 90 H 16 V 120" 
+                                                        stroke="rgba(200, 200, 200, 0.6)" 
                                                         strokeWidth="1" 
                                                         strokeDasharray="2,2" 
                                                         fill="none"
@@ -169,10 +169,10 @@ function Dropdown({ options, onSelectionChanged, valueKey, onRemove, style, orde
                                             )}
                                             {/* [2转]刀锋战士 → [3转]屠戮者 */}
                                             {key === '2246' && (
-                                                <svg style={{ position: 'absolute', top: '100%', left: '8px', width: '100%', height: '40px' }}>
+                                                <svg style={{ position: 'absolute', top: '100%', left: '8px', width: '50px', height: '60px' }}>
                                                     <path 
-                                                        d="M 0 0 V 20 H 16 V 40" 
-                                                        stroke="rgba(200, 200, 200, 0.3)" 
+                                                        d="M 0 0 V 30 H 16 V 60" 
+                                                        stroke="rgba(200, 200, 200, 0.6)" 
                                                         strokeWidth="1" 
                                                         strokeDasharray="2,2" 
                                                         fill="none"
