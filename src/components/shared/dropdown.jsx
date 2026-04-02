@@ -85,7 +85,11 @@ function Dropdown({ options, onSelectionChanged, valueKey, onRemove, style, orde
         onRemove(optionKey);
     }
 
-    function toggleDropdown() {
+    function toggleDropdown(e) {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         setOpened(!opened);
     }
 
@@ -113,8 +117,14 @@ function Dropdown({ options, onSelectionChanged, valueKey, onRemove, style, orde
                             <div 
                                 key={key} 
                                 className={`dropdown-option ${key === valueKey ? 'selected' : ''} ${key.startsWith('group_') ? 'dropdown-group-header' : ''}`}
-                                style={{ position: "relative", fontSize: '13px', cursor: key.startsWith('group_') ? 'default' : 'pointer' }}
-                                onClick={() => !key.startsWith('group_') && selectOption(key)}
+                                style={{ position: "relative", fontSize: '13px', cursor: key.startsWith('group_') ? 'default' : 'pointer', zIndex: 1001 }}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    if (!key.startsWith('group_')) {
+                                        selectOption(key);
+                                    }
+                                }}
                             >
                                 {key.startsWith('group_') ? (
                                     <div style={{ fontWeight: 'bold', color: '#d386ff', padding: '4px 0', fontSize: '14px' }}>{options[key]}</div>
