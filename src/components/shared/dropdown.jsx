@@ -97,7 +97,7 @@ function Dropdown({ options, onSelectionChanged, valueKey, onRemove, style, orde
                     toggleDropdown();
                 }
             }}>
-                <span className="dropdown-value" style={{ fontSize: '14px' }}>{options[valueKey]}</span>
+                <span className="dropdown-value" style={{ fontSize: '14px' }}>{options[valueKey] || ''}</span>
                 <img 
                     style={{ transform: opened ? "rotate(180deg)" : "rotate(0deg)" }} 
                     draggable={false} 

@@ -8,8 +8,13 @@ function Modal({ isOpen, onClose, title, children, actions }) {
             }
         };
 
-        document.addEventListener('keydown', handleKeyDown);
-        return () => document.removeEventListener('keydown', handleKeyDown);
+        if (isOpen) {
+            document.addEventListener('keydown', handleKeyDown);
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
     }, [isOpen, onClose]);
 
     if (!isOpen) {

@@ -114,9 +114,6 @@ function App() {
       }
     }
   }
-  
-  console.log('Job options:', jobOptions);
-  console.log('Ordered job IDs:', orderedJobIds);
 
   function changeJob(newJobId) {
     // 跳过分系标题
