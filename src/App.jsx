@@ -200,15 +200,25 @@ function App() {
   }
 
   function save() {
-    // Crude way of saving for now
-    const buildName = prompt(t("enter_build_name"));
-    if (buildName == null || buildName.length == 0) {
-      return;
-    }
+    if (loadedBuild != null) {
+      // 如果已有加载的配装，询问是否覆盖
+      const existingBuildName = loadedBuild.split("_")[0];
+      if (confirm(`是否覆盖当前配装"${existingBuildName}"？`)) {
+        // 覆盖当前配装
+        localStorage.setItem(loadedBuild, Context.player.serialize());
+        setState(!state);
+      }
+    } else {
+      // 如果没有加载的配装，提示输入新名称
+      const buildName = prompt(t("enter_build_name"));
+      if (buildName == null || buildName.length == 0) {
+        return;
+      }
 
-    const key = `${buildName}_${Utils.getGuid()}`;
-    localStorage.setItem(key, Context.player.serialize());
-    loadBuild(key);
+      const key = `${buildName}_${Utils.getGuid()}`;
+      localStorage.setItem(key, Context.player.serialize());
+      loadBuild(key);
+    }
   }
 
   function loadBuild(key) {
