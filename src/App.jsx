@@ -41,6 +41,43 @@ function App() {
     preloadData();
   }, []);
 
+  // 组件首次加载时自动加载第一个配装
+  useEffect(() => {
+    if (loadedBuild == null) {
+      // Invalidate old flyffulator builds
+      const toRemove = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith("i18next")) {
+          continue;
+        }
+
+        if (key) {
+          const build = localStorage.getItem(key);
+          if (build && build.includes("\"appliedStats\":")) {
+            toRemove.push(key);
+          }
+        }
+      }
+
+      for (const key of toRemove) {
+        localStorage.removeItem(key);
+      }
+
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith("i18next")) {
+          continue;
+        }
+
+        if (key) {
+          loadBuild(localStorage.key(i));
+          break;
+        }
+      }
+    }
+  }, []);
+
   const lang = i18n.resolvedLanguage || 'zh-CN';
   console.log('Current language:', lang);
   
@@ -238,40 +275,6 @@ function App() {
     Context.player.unserialize(localStorage.getItem(key));
     setLoadedBuild(key);
     setState(!state);
-  }
-
-  if (loadedBuild == null) {
-    // Invalidate old flyffulator builds
-    const toRemove = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith("i18next")) {
-        continue;
-      }
-
-      if (key) {
-        const build = localStorage.getItem(key);
-        if (build && build.includes("\"appliedStats\":")) {
-          toRemove.push(key);
-        }
-      }
-    }
-
-    for (const key of toRemove) {
-      localStorage.removeItem(key);
-    }
-
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith("i18next")) {
-        continue;
-      }
-
-      if (key) {
-        loadBuild(localStorage.key(i));
-        break;
-      }
-    }
   }
 
   function removeBuild(key) {
